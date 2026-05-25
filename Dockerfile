@@ -1,45 +1,20 @@
-FROM php:8.2-apache
+# Image Node.js
+FROM node:20
+
+# Dossier de travail
+WORKDIR /app
+
+# Copier package.json
+COPY package*.json ./
 
 # Installer dépendances
-RUN apt-get update && apt-get install -y \
-    zip \
-    unzip \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev
+RUN npm install
 
-# Extensions PHP
-RUN docker-php-ext-install pdo pdo_mysql mbstring
+# Copier le projet
+COPY . .
 
-# Activer rewrite
-RUN a2enmod rewrite
+# Exposer le port Express
+EXPOSE 3000
 
-# Définir le dossier public Laravel
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-
-# Modifier configuration Apache
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
-    /etc/apache2/sites-available/*.conf
-
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' \
-    /etc/apache2/apache2.conf \
-    /etc/apache2/conf-available/*.conf
-
-# Copier projet
-COPY . /var/www/html
-
-WORKDIR /var/www/html
-
-# Créer dossiers Laravel
-RUN mkdir -p storage bootstrap/cache
-
-# Permissions
-RUN chown -R www-data:www-data storage bootstrap/cache
-
-RUN chmod -R 775 storage bootstrap/cache
-
-EXPOSE 80
-
-CMD ["apache2-foreground"]
+# Lancer application
+CMD ["npm", "start"]
