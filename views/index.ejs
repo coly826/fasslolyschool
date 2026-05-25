@@ -1,0 +1,109 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<header class="header-section">
+    <img src="/image/logolo.jpeg" class="logo-nav">
+    <h2>Gestion du Bureau</h2>
+    <p style="color:#d4af37;">Plateforme administrative complète</p>
+</header>
+
+<div class="container mt-4">
+<div class="row">
+
+<!-- FORM -->
+<div class="col-md-4 mb-4">
+<div class="card shadow-sm">
+<div class="card-body">
+
+<h5 class="mb-3 text-primary">
+<i class="bi bi-person-plus-fill"></i> Ajouter un membre
+</h5>
+
+<form action="/add" method="POST">
+
+<input type="text" name="name" class="form-control mb-2" placeholder="Nom complet" required>
+
+<select name="role" class="form-select mb-3" required>
+
+<option value="">Choisir la fonction</option>
+
+<optgroup label="Bureau exécutif">
+<option>Président(e)</option>
+<option>Vice-président(e)</option>
+<option>Secrétaire général(e)</option>
+<option>Secrétaire adjoint(e)</option>
+<option>Trésorier(ère)</option>
+<option>Trésorier adjoint</option>
+</optgroup>
+
+<optgroup label="Commissions">
+<option>Chargé de communication</option>
+<option>Président commission organisation</option>
+<option>Adjoint organisation</option>
+<option>Présidente commission féminine</option>
+<option>Adjointe commission féminine</option>
+<option>Président commission pédagogique (PCP)</option>
+<option>Chargé relations extérieures</option>
+</optgroup>
+
+</select>
+
+<button class="btn btn-gold w-100">Enregistrer</button>
+
+</form>
+
+</div>
+</div>
+</div>
+
+<!-- LIST -->
+<div class="col-md-8">
+
+<div class="d-flex justify-content-between mb-3">
+<h5>Membres (<%= members.length %>)</h5>
+</div>
+
+<div class="row">
+
+<% members.forEach(m => { %>
+
+<div class="col-md-6 mb-3">
+<div class="card p-3 card-member shadow-sm">
+
+<h6><%= m.name %></h6>
+
+<span class="badge badge-role"><%= m.role %></span>
+<div class="mt-3">
+
+    <a href="/delete/<%= m._id %>" class="btn btn-danger btn-sm">
+    Supprimer
+    </a>
+    
+    <% if(m.role.includes("Trésorier")) { %>
+    <a href="/treasury" class="btn btn-dark btn-sm">
+    Espace Trésorier
+    </a>
+    <% } %>
+    
+
+    <% if(m.role.includes("Président")) { %>
+        <a href="/president" class="btn btn-primary btn-sm">
+        Espace Président
+        </a>
+        <% } %>
+    </div>
+
+
+
+</div>
+</div>
+
+<% }) %>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<%- include('partials/footer') %>
