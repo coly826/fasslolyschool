@@ -1,4 +1,4 @@
-# Image Node.js
+# Image officielle Node.js
 FROM node:20
 
 # Dossier de travail
@@ -7,14 +7,14 @@ WORKDIR /app
 # Copier package.json
 COPY package*.json ./
 
-# Installer dépendances
+# Installer les dépendances
 RUN npm install
 
-# Copier le projet
+# Copier tout le projet
 COPY . .
 
-# Exposer le port Express
+# Exposer le port
 EXPOSE 3000
 
-# Lancer application
+# Démarrer l'application
 CMD ["npm", "start"]

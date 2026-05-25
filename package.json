@@ -1,8 +1,9 @@
 {
   "name": "fassloly",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,7 +17,4 @@
     "express": "^5.2.1",
     "mongoose": "^9.6.1"
   }
-  
-  
 }
-
