@@ -1,22 +1,13 @@
-# Utiliser une image PHP officielle avec Apache
-FROM php:8.1-apache
+# Copier le projet
+COPY . /var/www/html
 
-# Installer les extensions PHP nécessaires
-RUN apt-get update && apt-get install -y \
-    libonig-dev \
-    libzip-dev \
-    zip \
-    unzip \
-    && docker-php-ext-install pdo pdo_mysql zip mbstring
+WORKDIR /var/www/html
 
-# Copier le code source dans le conteneur
-COPY . /var/www/html/
+# Créer les dossiers nécessaires
+RUN mkdir -p storage bootstrap/cache
 
-# Donner les permissions nécessaires (ajuste selon ton projet)
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Donner les permissions
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Exposer le port 80
-EXPOSE 80
-
-# Lancer Apache en avant-plan
-CMD ["apache2-foreground"]
+# Permissions supplémentaires
+RUN chmod -R 775 storage bootstrap/cache
